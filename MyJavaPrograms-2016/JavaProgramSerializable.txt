@@ -1,0 +1,71 @@
+package test3;
+
+import java.io.*;
+
+public class Polim {
+	
+	public static class sz implements Serializable{
+		private static final long serialVersionUID = 1L;
+		String str;
+		transient int x;
+		sz(String s, int x){
+			str = s;
+			this.x = x;
+		}
+		public String getStr(){return str;}
+		public int getX(){return x;}
+		
+	}
+	
+	
+		public static void main(String[] args) {
+
+			File f = new File("c:\\users\\ferid\\desktop\\Java.txt");
+			
+			FileOutputStream fos = null;
+			ObjectOutputStream oos = null;
+			
+			FileInputStream  fos2 = null;
+			ObjectInputStream ois2 = null;
+			
+			try{
+				if(!f.exists())f.createNewFile();
+				fos = new FileOutputStream(f);
+				oos = new ObjectOutputStream(fos);
+				sz ob = new sz("Fiko Bank", 123);
+				oos.writeObject(ob);
+			}catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			finally {
+				try {
+					fos.close();
+					oos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try{
+			fos2 = new FileInputStream(f);
+			ois2 = new ObjectInputStream(fos2);
+			sz ob2 = (sz) ois2.readObject();
+			System.out.println(ob2.getStr());
+			System.out.println(ob2.getX());
+			}
+			catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			finally {
+				try{
+					fos2.close();
+					ois2.close();
+					}catch(Exception e){System.out.println(e);}
+			}
+		}
+}
+
+
+output: Fiko Bank
+	0

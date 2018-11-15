@@ -1,0 +1,182 @@
+**********
+MAIN.java
+**********
+
+package test4;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.ListIterator;
+
+import javax.swing.JFrame;
+
+@SuppressWarnings("serial")
+public class Main extends JFrame{
+	
+	public static ArrayList<Kvadrat> kvlar = new ArrayList<Kvadrat>();
+	
+	
+	
+	public static void main(String s[])
+	{
+		JFrame pencere = new JFrame("MyProject");
+		Acting act1 = new Acting(70, 80, 50, 50);
+		act1.setBackground(Color.CYAN);
+		pencere.add(act1);
+		pencere.setSize(500, 300);
+		pencere.setVisible(true);
+		pencere.setLocation(200, 100);
+		pencere.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		pencere.addKeyListener(act1);
+		Kvadrat kv1 = new Kvadrat(10, 50, 30, 30);
+		act1.AddKv(kv1);
+		kv1 = new Kvadrat(100, 150, 60, 50);
+		act1.AddKv(kv1);
+		
+	}
+}
+
+************
+Kvadrat.java
+************
+
+package test4;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Kvadrat{
+	
+	int en, uz, locX, locY;
+	public Kvadrat(int x, int y, int s, int h)
+	{
+		en = s;
+		uz = h;
+		locX = x;
+		locY = y;
+	}
+	
+	public void Paint(Graphics g)
+	{
+		g.setColor(Color.BLUE);
+		g.drawRect(locX, locY, uz, en);
+	}
+	
+}
+
+***********
+Acting.java
+***********
+
+package test4;
+
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import javax.swing.JPanel;
+
+public class Acting extends JPanel implements KeyListener{
+
+	Kvadrat kvadrat;
+	ArrayList<Kvadrat> kvlar = new ArrayList<Kvadrat>();
+	int index = 0;
+	boolean b;
+	public Acting(int locX, int locY, int en, int uz)
+	{
+		kvadrat = new Kvadrat(locX, locY, en, uz);
+	}
+
+	public void paint(Graphics g)
+	{
+		super.paint(g);
+		kvadrat.Paint(g);
+		for(int i = 0; i < kvlar.size(); i++)
+			kvlar.get(i).Paint(g);
+	}
+	
+	public void AddKv(Kvadrat k)
+	{
+		kvlar.add(k);
+	}
+	
+	@SuppressWarnings("static-access")
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == e.VK_UP)
+		{
+			b = true;
+			for(int i = 0; i < kvlar.size(); i++)
+			{
+				if((kvadrat.locX + kvadrat.uz > kvlar.get(i).locX && kvadrat.locX < kvlar.get(i).locX + kvlar.get(i).uz)
+						&&( kvadrat.locY == kvlar.get(i).locY + kvlar.get(i).en))
+				{
+					b = false;
+					break;
+				}
+			}
+			if(b)
+			kvadrat.locY--;
+		}
+		if(e.getKeyCode() == e.VK_DOWN)
+		{
+			b = true;
+			for(int i = 0; i < kvlar.size(); i++)
+			{
+				if((kvadrat.locX + kvadrat.uz > kvlar.get(i).locX && kvadrat.locX < kvlar.get(i).locX + kvlar.get(i).uz)
+						&&( kvadrat.locY + kvadrat.en == kvlar.get(i).locY))
+				{
+					b = false;
+					break;
+				}
+			}
+			if(b)
+			kvadrat.locY++;
+		}
+		if(e.getKeyCode() == e.VK_LEFT)
+		{
+			b = true;
+			for(int i = 0; i < kvlar.size(); i++)
+			{
+				if((kvadrat.locY + kvadrat.uz > kvlar.get(i).locY && kvadrat.locY < kvlar.get(i).locY + kvlar.get(i).uz)
+						&&( kvadrat.locX == kvlar.get(i).locX + kvlar.get(i).en))
+				{
+					b = false;
+					break;
+				}
+			}
+			if(b)
+			kvadrat.locX--;
+		}
+		if(e.getKeyCode() == e.VK_RIGHT)
+		{
+			b = true;
+			for(int i = 0; i < kvlar.size(); i++)
+			{
+				if((kvadrat.locY + kvadrat.uz > kvlar.get(i).locY && kvadrat.locY < kvlar.get(i).locY + kvlar.get(i).uz)
+						&&( kvadrat.locX + kvadrat.en == kvlar.get(i).locX))
+				{
+					b = false;
+					break;
+				}
+			}
+			if(b)
+			kvadrat.locX++;
+		}
+		repaint();
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

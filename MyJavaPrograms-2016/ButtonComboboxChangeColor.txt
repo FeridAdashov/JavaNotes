@@ -1,0 +1,138 @@
+package test4;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+
+
+
+@SuppressWarnings("serial")
+public class Main extends JFrame implements ActionListener, ItemListener{
+
+	JLabel l;
+	JComboBox<String> co;
+	JRadioButton rb1;
+	JRadioButton rb2;
+	JRadioButton rb3;
+	JButton b;
+	public Main()
+	{
+		this.setVisible(true);
+		this.setLocation(250, 250);
+		this.setSize(500, 300);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Container con = getContentPane();
+		con.setLayout(null);
+		con.setBackground(Color.CYAN);
+		
+		l = new JLabel("COLOR");
+		l.setSize(100, 50);
+		l.setLocation(300, 0);		
+		l.setBackground(Color.BLUE);
+		con.add(l);
+		
+		b = new JButton("Show_Mesaj");
+		b.setSize(200, 100);
+		b.setLocation(200, 150);
+		b.setActionCommand("mesaj");
+		b.addActionListener(this);
+		b.setBackground(Color.lightGray);
+		con.add(b);
+		
+		co = new JComboBox<String>();
+		co.setSize(200, 50);
+		co.addItem("Red");
+		co.addItem("Blue");
+		co.addItem("Green");
+		co.addItemListener(this);
+		con.add(co);
+		
+		ButtonGroup bg = new ButtonGroup();
+		
+		rb1 = new JRadioButton("1.Color");
+		rb2 = new JRadioButton("2.Color");
+		rb3 = new JRadioButton("3.Color");
+		
+		rb1.setSize(100, 50);
+		rb2.setSize(100, 50);
+		rb3.setSize(100, 50);
+		
+		rb1.setBackground(Color.RED);
+		rb2.setBackground(Color.BLUE);
+		rb3.setBackground(Color.GREEN);
+		
+		rb1.setLocation(50, 100);
+		rb2.setLocation(50, 150);
+		rb3.setLocation(50, 200);
+		
+		rb1.addActionListener(this);
+		rb2.addActionListener(this);
+		rb3.addActionListener(this);
+		
+		con.add(rb1);
+		con.add(rb2);
+		con.add(rb3);
+		
+		bg.add(rb1);
+		bg.add(rb2);
+		bg.add(rb3);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new Main();
+			}
+		});
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if(e.getActionCommand().equals("mesaj"))
+		{
+			JOptionPane.showMessageDialog(this, "Reng secildi");
+			l.setText(co.getSelectedItem().toString());
+		}
+		
+		if(e.getActionCommand().equals(rb1.getText()))
+		{
+			co.setSelectedItem(co.getItemAt(rb1.getText().charAt(0) - '0' - 1));
+			b.setBackground(rb1.getBackground());
+		}
+			
+		if(e.getActionCommand().equals(rb2.getText()))
+		{
+			co.setSelectedItem(co.getItemAt(rb2.getText().charAt(0) - '0' - 1));
+			b.setBackground(rb2.getBackground());
+		}
+
+		if(e.getActionCommand().equals(rb3.getText())){
+			co.setSelectedItem(co.getItemAt(rb3.getText().charAt(0) - '0' - 1));
+			b.setBackground(rb3.getBackground());
+		}
+			
+	}
+	JLabel l1;
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		
+		
+	}
+
+}

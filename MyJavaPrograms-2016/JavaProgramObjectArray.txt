@@ -1,0 +1,32 @@
+package test4;
+
+import javax.swing.JOptionPane;
+
+public class Main {
+
+	public static void main(String[] args) throws Exception {
+		
+		int n, sayChar = 0, sayInt = 0, sayString = 0;
+		n = Integer.parseInt((JOptionPane.showInputDialog("Element sayi: ")));
+		Object[] array = new Object[n];
+		for(byte i = 0; i < n; i++)
+		{
+			String str= JOptionPane.showInputDialog("Value: ");
+			if(str.charAt(0) <= '9' && str.charAt(0) >= '0')
+				 array[i] = Integer.parseInt(str);
+			else if(str.length() == 1)
+				 array[i] = str.charAt(0);
+			else array[i] = str;
+		}
+		
+		for(Object x : array)
+		{
+			if(x.getClass().getName().equals(Integer.class.getName())) sayInt++;
+			else if(x.getClass().getName().equals(Character.class.getName())) sayChar++;
+			else sayString++;
+		}
+		
+		JOptionPane.showMessageDialog(null, "IntSayi: " + sayInt + "\nCharSayi: " + sayChar + "\nStringSayi: " + sayString);	
+	}
+
+}

@@ -1,0 +1,44 @@
+package test3;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Polim {
+	
+	static FileOutputStream fos;
+	static FileInputStream  fis;
+		public static void main(String[] args) throws IOException {
+		
+			File f = new File("C:\\users\\ferid\\desktop\\Java1.txt");
+			try{
+				fos = new FileOutputStream(f);
+				byte[] b;
+				String str = "Azerbaycan Respublikasini coox sevirem!!!";
+				b = str.getBytes();
+				
+				fos.write(b);
+			}catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			finally {
+				fos.close();
+			}
+			
+			try{
+				fis = new FileInputStream(f);
+				byte[] b2 = new byte[(int) f.length()];
+				fis.read(b2);
+				String str = new String(b2);
+				System.out.println(str);
+			}catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			finally {
+				fis.close();
+			}
+	}
+}

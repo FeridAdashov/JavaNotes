@@ -1,0 +1,98 @@
+package mypackage;
+
+class Sender {
+	public void send(String msg) {
+		System.out.println("Sending\t" + msg);
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			System.out.println("Thread  interrupted.");
+		}
+		System.out.println("\n" + msg + "Sent");
+	}
+}
+
+class ThreadedSend extends Thread {
+	private String msg;
+	Sender sender;
+
+	ThreadedSend(String m, Sender obj) {
+		msg = m;
+		sender = obj;
+	}
+
+	public void run() {
+		synchronized (sender) {
+			sender.send(msg);
+		}
+	}
+}
+
+class Main_test {
+
+	public static void main(String... strings) {
+
+		Sender snd = new Sender();
+		ThreadedSend S1 = new ThreadedSend(" Hi ", snd);
+		ThreadedSend S2 = new ThreadedSend(" Bye ", snd);
+
+		S1.start(); //Evvel S1 Threadin snd obyekti uzrinde isi bitir
+		S2.start(); // Sonra S2 Thread -i ise baslayir
+	}
+}
+/* OUTPUT:
+
+Sending	 Hi 
+
+ Hi Sent
+Sending	 Bye 
+
+ Bye Sent
+
+*/
+
+
+/* Second Way
+
+class Sender 
+{
+    public synchronized void send(String msg)
+    {
+        System.out.println("Sending\t" + msg );
+        try
+        {
+            Thread.sleep(1000);
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Thread interrupted.");
+        }
+        System.out.println("\n" + msg + "Sent");
+    }
+}
+
+*/
+
+/*Third Way
+
+class Sender 
+{
+    public void send(String msg)
+    {
+        synchronized(this)
+        {
+            System.out.println("Sending\t" + msg );
+            try
+            {
+                Thread.sleep(1000);
+            } 
+            catch (Exception e) 
+            {
+                System.out.println("Thread interrupted.");
+            }
+            System.out.println("\n" + msg + "Sent");
+        }
+    }
+}
+
+*/
